@@ -22,3 +22,15 @@ export const fetchMovieDetails = async (id) => {
   const response = await tmdbApi.get(`/movie/${id}`);
   return response.data;
 };
+
+export const searchMovies = async (query, page = 1) => {
+  const response = await tmdbApi.get('/search/movie', {
+    params: {
+      api_key: API_KEY,
+      language: 'ko-KR',
+      query,
+      page,
+    },
+  });
+  return response.data;
+};

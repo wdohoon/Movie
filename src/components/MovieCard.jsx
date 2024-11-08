@@ -14,7 +14,7 @@ const MovieCard = ({ movie }) => {
 
   return (
     <div
-      className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-200"
+      className="bg-white dark:bg-black rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-200"
       onClick={handleClick}
     >
       <img

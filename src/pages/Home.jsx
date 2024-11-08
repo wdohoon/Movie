@@ -37,7 +37,7 @@ const Home = () => {
   }, [movies]);
 
   return (
-    <div className="container mx-auto px-4 py-8 mt-16">
+    <div className="container mx-auto px-4 py-8 mt-16 dark:bg-black">
       <MainSlide />
       <h1 className="text-3xl font-bold mb-6 text-center">영화 목록</h1>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
