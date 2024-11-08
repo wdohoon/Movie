@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import movieDetailData from '../data/movieDetailData.json';
+import {fetchMovieDetails} from "../services/tmdbApi.js";
 
 const MovieDetail = () => {
   const [movie, setMovie] = useState(null);
   const { id } = useParams();
 
   useEffect(() => {
-    setMovie(movieDetailData);
+    const getMovieDetail = async () => {
+      try {
+        const data = await fetchMovieDetails(id);
+        setMovie(data);
+      } catch (error) {
+        console.error('영화 상세 정보를 가져오는데 실패했습니다:', error);
+      }
+    };
+    getMovieDetail();
   }, [id]);
 
   if (!movie) return <div>로딩 중...</div>;
