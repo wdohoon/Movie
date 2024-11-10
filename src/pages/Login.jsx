@@ -24,7 +24,7 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="w-full py-2 rounded"
+            className="w-full py-2 rounded bg-black dark:bg-white dark:text-black text-white"
           >
             로그인
           </button>

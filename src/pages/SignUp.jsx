@@ -40,7 +40,7 @@ const Signup = () => {
           </div>
           <button
             type="submit"
-            className="w-full py-2 rounded"
+            className="w-full py-2 rounded dark:bg-white bg-black text-white dark:text-black"
           >
             회원가입
           </button>

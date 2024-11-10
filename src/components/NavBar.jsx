@@ -29,7 +29,7 @@ const NavBar = () => {
   }, [debouncedSearchTerm]);
 
   return (
-    <nav className="fixed w-full z-10 top-0 left-0">
+    <nav className="fixed w-full z-10 top-0 left-0 bg-white dark:bg-black border-b border-b-black dark:border-b-white">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link to="/" className="text-2xl font-bold">
           MyMovieApp

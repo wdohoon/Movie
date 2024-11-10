@@ -40,7 +40,7 @@ const Home = () => {
     <div className="container mx-auto px-4 py-8 mt-16 dark:bg-black">
       <MainSlide />
       <h1 className="text-3xl font-bold mb-6 text-center">영화 목록</h1>
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      <div className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4">
         {movies.map((movie) => (
           <MovieCard key={`${movie.id}-${Math.random()}`} movie={movie} />
         ))}
