@@ -4,6 +4,8 @@ import SearchResults from "./SearchResults.jsx";
 import useDebounce from "../hooks/useDebounce.js";
 import {searchMovies} from "../services/tmdbApi.js";
 import {ThemeContext} from "../contexts/ThemeContext.jsx";
+import {AuthContext} from "../contexts/AuthContext.jsx";
+import supabase from "../SupabaseClient.js";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,6 +13,19 @@ const NavBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const { theme, toggleTheme } = useContext(ThemeContext);
+
+  const { user } = useContext(AuthContext);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      alert('로그아웃에 실패했습니다: ' + error.message);
+    } else {
+      alert('로그아웃되었습니다.');
+      setMenuOpen(false);
+    }
+  };
 
   useEffect(() => {
     if (debouncedSearchTerm) {
@@ -50,71 +65,73 @@ const NavBar = () => {
           </button>
           {searchTerm && <SearchResults movies={movies}/>}
         </div>
-        <div className="hidden md:flex items-center">
-          <Link
-            to="/signup"
-            className="px-3 py-2 rounded-md text-sm font-medium"
-          >
-            회원가입
-          </Link>
-          <Link
-            to="/login"
-            className="px-3 py-2 rounded-md text-sm font-medium"
-          >
-            로그인
-          </Link>
-        </div>
-        <div className="md:hidden">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            type="button"
-            className="focus:outline-none"
-          >
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              {isOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 8h16M4 16h16"
-                />
+        <div className="flex items-center">
+          {user ? (
+            // 로그인된 상태
+            <div className="relative">
+              <img
+                src={`https://ui-avatars.com/api/?name=${user.email}`}
+                alt="User Avatar"
+                className="w-8 h-8 rounded-full cursor-pointer"
+                onClick={() => setMenuOpen(!menuOpen)}
+              />
+              {menuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border rounded shadow-lg">
+                  <Link
+                    to="/mypage"
+                    className="block px-4 py-2 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    마이 페이지
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    로그아웃
+                  </button>
+                </div>
               )}
-            </svg>
-          </button>
+            </div>
+          ) : (
+            // 로그인되지 않은 상태
+            <>
+              <Link
+                to="/signup"
+                className="text-black dark:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                회원가입
+              </Link>
+              <Link
+                to="/login"
+                className="text-black dark:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                로그인
+              </Link>
+            </>
+          )}
         </div>
       </div>
-      {isOpen && (
-        <div className="md:hidden">
-          <Link
-            to="/signup"
-            className="block px-4 py-2"
-            onClick={() => setIsOpen(false)}
-          >
-            회원가입
-          </Link>
-          <Link
-            to="/login"
-            className="block px-4 py-2"
-            onClick={() => setIsOpen(false)}
-          >
-            로그인
-          </Link>
-        </div>
-      )}
+        {isOpen && (
+          <div className="md:hidden">
+            <Link
+              to="/signup"
+              className="block px-4 py-2"
+              onClick={() => setIsOpen(false)}
+            >
+              회원가입
+            </Link>
+            <Link
+              to="/login"
+              className="block px-4 py-2"
+              onClick={() => setIsOpen(false)}
+            >
+              로그인
+            </Link>
+          </div>
+        )}
     </nav>
-  );
+);
 };
 
 export default NavBar;
