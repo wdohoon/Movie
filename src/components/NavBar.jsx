@@ -14,6 +14,7 @@ const NavBar = () => {
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const { theme, toggleTheme } = useContext(ThemeContext);
 
+
   const { user } = useContext(AuthContext);
   const [menuOpen, setMenuOpen] = useState(false);
 
