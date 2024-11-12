@@ -5,7 +5,7 @@ import useDebounce from "../hooks/useDebounce.js";
 import {searchMovies} from "../services/tmdbApi.js";
 import {ThemeContext} from "../contexts/ThemeContext.jsx";
 import {AuthContext} from "../contexts/AuthContext.jsx";
-import supabase from "../SupabaseClient.js";
+import supabase from "../contexts/SupabaseClient.js";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
-import supabase from '../supabaseClient';
+import supabase from '../contexts/SupabaseClient.js';
 import MovieCard from '../components/MovieCard';
 import { fetchMovieDetails } from '../services/tmdbApi';
 

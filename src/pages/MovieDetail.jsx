@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMovieDetails } from '../services/tmdbApi.js';
-import supabase from '../supabaseClient.js'; // 경로 수정
+import supabase from '../contexts/SupabaseClient.js'; // 경로 수정
 import { AuthContext } from '../contexts/AuthContext.jsx';
 
 const MovieDetail = () => {
