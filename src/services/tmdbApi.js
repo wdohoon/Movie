@@ -26,11 +26,34 @@ export const fetchMovieDetails = async (id) => {
 export const searchMovies = async (query, page = 1) => {
   const response = await tmdbApi.get('/search/movie', {
     params: {
-      api_key: API_KEY,
-      language: 'ko-KR',
       query,
       page,
     },
   });
   return response.data;
+};
+
+export const fetchMovieVideos = async (movieId) => {
+  const response = await tmdbApi.get(`/movie/${movieId}/videos`);
+  return response.data.results;
+};
+
+export const fetchRecommendedMovies = async (movieId) => {
+  const response = await tmdbApi.get(`/movie/${movieId}/recommendations`);
+  return response.data.results;
+};
+
+export const fetchGenres = async () => {
+  const response = await tmdbApi.get('/genre/movie/list');
+  return response.data.genres;
+};
+
+export const fetchMoviesByGenre = async (genreId, page = 1) => {
+  const response = await tmdbApi.get('/discover/movie', {
+    params: {
+      with_genres: genreId,
+      page,
+    },
+  });
+  return response.data.results;
 };

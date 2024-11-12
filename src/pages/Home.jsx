@@ -1,4 +1,3 @@
-// src/pages/Home.jsx
 import React, { useState, useEffect } from 'react';
 import { fetchPopularMovies } from '../services/tmdbApi';
 import MovieCard from '../components/MovieCard';

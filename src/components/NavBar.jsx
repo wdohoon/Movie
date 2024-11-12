@@ -66,6 +66,9 @@ const NavBar = () => {
           </button>
           {searchTerm && <SearchResults movies={movies}/>}
         </div>
+        <Link to="/genres" className="text-gray-700 hover:text-primary mx-2">
+          장르별 영화
+        </Link>
         <div className="flex items-center">
           {user ? (
             // 로그인된 상태

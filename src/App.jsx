@@ -8,6 +8,7 @@ import Login from "./pages/Login.jsx";
 import ThemeProvider from './contexts/ThemeContext.jsx';
 import AuthProvider from "./contexts/AuthContext.jsx";
 import MyPage from "./pages/MyPage.jsx";
+import GenreMovies from "./pages/GenreMovies.jsx";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
             <Route path="/signup" element={<Signup/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/mypage" element={<MyPage/>}/>
+            <Route path="/genres" element={<GenreMovies />} />;
           </Routes>
         </div>
       </ThemeProvider>
