@@ -60,10 +60,31 @@ const Login = () => {
          redirectTo: window.location.origin,
       },
     });
-
     if (error) {
       console.error('카카오 로그인 에러:', error);
       alert('카카오 로그인에 실패했습니다: ' + error.message);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+    });
+
+    if (error) {
+      console.error('구글 로그인 에러:', error);
+      alert('구글 로그인에 실패했습니다: ' + error.message);
+    }
+  };
+
+  const handleGitHubLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'github',
+    });
+
+    if (error) {
+      console.error('깃허브 로그인 에러:', error);
+      alert('깃허브 로그인에 실패했습니다: ' + error.message);
     }
   };
 
@@ -102,9 +123,15 @@ const Login = () => {
           <div className="mt-6">
             <button
               onClick={() => handleKakaoLogin('kakao')}
-              className="btn btn-kakao"
+              className="btn btn-kakao w-full mt-4"
             >
               카카오로 로그인
+            </button>
+            <button onClick={handleGoogleLogin} className="btn btn-google w-full mt-4">
+              구글로 로그인
+            </button>
+            <button onClick={handleGitHubLogin} className="btn btn-github w-full mt-4">
+              깃허브로 로그인
             </button>
           </div>
         </form>
