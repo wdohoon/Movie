@@ -16,7 +16,8 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
     "styled-components": "^6.1.13",
-    "swiper": "^11.1.14"
+    "swiper": "^11.1.14",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

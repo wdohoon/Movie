@@ -1,44 +1,69 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import supabase from '../supabaseClient';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
+import {z} from "zod";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+  const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
+
+  const loginSchema = z.object({
+    email: z.string().email('유효한 이메일 주소를 입력해주세요.'),
+    password: z.string().nonempty('비밀번호를 입력해주세요.'),
+  });
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      alert('이메일과 비밀번호를 모두 입력해주세요.');
-      return;
-    }
+    try {
+      loginSchema.parse(formData);
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+      const { error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (error) {
+        console.error('로그인 에러:', error);
+        alert('로그인에 실패했습니다: ' + error.message);
+      } else {
+        alert('로그인에 성공했습니다!');
+        navigate('/');
+      }
+    } catch (validationError) {
+      if (validationError instanceof z.ZodError) {
+        const errors = {};
+        validationError.errors.forEach((err) => {
+          errors[err.path[0]] = err.message;
+        });
+        setFormErrors(errors);
+      } else {
+        console.error('유효성 검사 에러:', validationError);
+      }
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    // 입력 변경 시 에러 메시지 초기화
+    setFormErrors({ ...formErrors, [e.target.name]: '' });
+  };
+
+  const handleKakaoLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'kakao',
+      options: {
+         redirectTo: window.location.origin,
+      },
     });
 
     if (error) {
-      console.error('로그인 에러:', error);
-      alert('로그인에 실패했습니다: ' + error.message);
-    } else {
-      alert('로그인에 성공했습니다!');
-      navigate('/');
-    }
-  };
-  const handleSocialLogin = async (provider) => {
-    const { error } = await supabase.auth.signIn(
-      {
-        provider,
-      },
-      {
-        redirectTo: window.location.origin,
-      }
-    );
-    if (error) {
-      alert('소셜 로그인에 실패했습니다: ' + error.message);
+      console.error('카카오 로그인 에러:', error);
+      alert('카카오 로그인에 실패했습니다: ' + error.message);
     }
   };
 
@@ -51,37 +76,35 @@ const Login = () => {
             <label className="block">이메일</label>
             <input
               type="email"
+              name="email"
               className="input text-black"
               placeholder="이메일을 입력하세요"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={handleChange}
             />
+            {formErrors.email && <p className="text-red-500 text-sm">{formErrors.email}</p>}
           </div>
           <div className="mb-4">
             <label className="block">비밀번호</label>
             <input
               type="password"
+              name="password"
               className="input text-black"
               placeholder="비밀번호를 입력하세요"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={handleChange}
             />
+            {formErrors.password && <p className="text-red-500 text-sm">{formErrors.password}</p>}
           </div>
           <button type="submit" className="btn w-full">
             로그인
           </button>
           <div className="mt-6">
             <button
-              onClick={() => handleSocialLogin('google')}
-              className="btn btn-secondary w-full mb-2"
+              onClick={() => handleKakaoLogin('kakao')}
+              className="btn btn-kakao"
             >
-              Google로 로그인
-            </button>
-            <button
-              onClick={() => handleSocialLogin('github')}
-              className="btn btn-secondary w-full"
-            >
-              GitHub로 로그인
+              카카오로 로그인
             </button>
           </div>
         </form>
