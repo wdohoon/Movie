@@ -8,7 +8,7 @@ import 'swiper/css/effect-fade';
 import {fetchPopularMovies} from "../services/tmdbApi.js";
 
 
-const Home = () => {
+const MainSlide = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -48,4 +48,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default MainSlide;
