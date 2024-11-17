@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Star } from 'lucide-react';
+import { Star, Calendar } from 'lucide-react';
 
 const MovieCard = ({ movie }) => {
   const navigate = useNavigate();
@@ -15,24 +15,28 @@ const MovieCard = ({ movie }) => {
 
   return (
     <div
-      className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105"
+      className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500"
       onClick={handleClick}
     >
-      <div className="relative">
+      <div className="relative aspect-[2/3]">
         <img
-          className="w-full h-[300px] object-cover"
+          className="w-full h-full object-cover"
           src={posterUrl}
           alt={movie.title}
           loading="lazy"
         />
-        <div className="absolute top-2 right-2 bg-yellow-400 text-gray-900 px-2 py-1 rounded-full text-sm font-bold flex items-center">
-          <Star className="w-4 h-4 mr-1" />
-          {movie.vote_average.toFixed(1)}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        <div className="absolute bottom-2 left-2 right-2 flex justify-between items-end">
+          <h3 className="text-white text-lg font-bold line-clamp-2">{movie.title}</h3>
+          <div className="bg-yellow-400 text-gray-900 px-2 py-1 rounded-full text-sm font-bold flex items-center">
+            <Star className="w-4 h-4 mr-1" />
+            {movie.vote_average.toFixed(1)}
+          </div>
         </div>
       </div>
       <div className="p-4">
-        <h3 className="text-lg font-bold mb-2 truncate">{movie.title}</h3>
-        <p className="text-sm text-gray-600 dark:text-gray-400">
+        <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center">
+          <Calendar className="w-4 h-4 mr-2" />
           {movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A'}
         </p>
       </div>

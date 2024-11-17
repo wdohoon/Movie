@@ -57,3 +57,4 @@ export const fetchMoviesByGenre = async (genreId, page = 1) => {
   });
   return response.data.results;
 };
+
