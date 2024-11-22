@@ -26,6 +26,7 @@ const MainSlide = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <Swiper
+        className="!py-2"
         modules={[Navigation, A11y, Autoplay]}
         autoplay={{ delay: 3000 }}
         spaceBetween={20}

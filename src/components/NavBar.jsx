@@ -100,7 +100,7 @@ const NavBar = () => {
                       onClick={() => setMenuOpen(false)}
                     >
                       <User className="inline-block w-4 h-4 mr-2" />
-                      마이 페이지
+                      나의 북마크
                     </Link>
                     <button
                       onClick={handleLogout}
